@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://f4tih66.github.io/websitem/sitemap-index.xml
