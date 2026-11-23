@@ -1,0 +1,108 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import TagList from '../../components/TagList.astro';
+import { getPublishedPosts, readingTime } from '../../utils/posts';
+import { useTranslations } from '../../i18n/ui';
+import { withBase } from '../../utils/url';
+import type { Post } from '../../utils/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, draft, lang, ogImage } = post.data;
+const { Content } = await render(post);
+const t = useTranslations(lang);
+const minutes = readingTime(post.body);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={ogImage}
+  type="article"
+  publishedTime={pubDate}
+  modifiedTime={updatedDate}
+  tags={tags}
+  noindex={draft}
+  lang={lang}
+>
+  <article class="post">
+    <header class="post-header measure">
+      <p class="meta mono">
+        <FormattedDate date={pubDate} lang={lang} />
+        <span aria-hidden="true">·</span>
+        <span>{minutes} {t('post.readingTime')}</span>
+        {
+          updatedDate && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>
+                {t('post.updated')}: <FormattedDate date={updatedDate} lang={lang} />
+              </span>
+            </>
+          )
+        }
+        {draft && <span class="draft">{t('post.draft')}</span>}
+      </p>
+      <h1>{title}</h1>
+      <p class="lead">{description}</p>
+      <TagList tags={tags} label={t('post.tags')} />
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <footer class="post-footer measure">
+      <a class="mono" href={withBase('/blog/')}>{t('post.back')}</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0 0 0.75rem;
+  }
+  .draft {
+    color: var(--accent-contrast);
+    background: var(--accent);
+    padding: 0 0.4em;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+  .post-header h1 {
+    margin-bottom: 0.75rem;
+  }
+  .lead {
+    font-size: 1.125rem;
+    color: var(--muted);
+  }
+  .post-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+</style>

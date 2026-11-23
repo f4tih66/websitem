@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, SOCIAL } from '../consts';
+import { withBase } from '../utils/url';
+
+// TASLAK: Köşeli parantez içindeki [ ] yerleri kendi bilgilerinle doldur.
+const title = 'Hakkımda';
+const description = `${SITE.author} kimdir, bu blogda neler yazıyor?`;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="prose">
+    <p class="mono muted prompt">cat about.md</p>
+    <h1>Hakkımda</h1>
+
+    <p>
+      Merhaba, ben <strong>{SITE.author}</strong>. Yazılım geliştirme, siber güvenlik ve yapay zekâ
+      kesişiminde öğrenmeyi ve öğrendiklerimi paylaşmayı seven biriyim. Bu blog, hem kendime not
+      defteri hem de benzer konularla uğraşanlara küçük bir kaynak olsun diye var.
+    </p>
+
+    <h2>Neler yazıyorum?</h2>
+    <ul>
+      <li><strong>Yazılım:</strong> temiz kod, araçlar, otomasyon ve geliştirici verimliliği.</li>
+      <li>
+        <strong>Siber güvenlik:</strong> temel kavramlar, güvenli kodlama, CTF notları ve
+        laboratuvar çalışmaları.
+      </li>
+      <li>
+        <strong>Yapay zekâ:</strong> LLM'ler, pratik kullanım senaryoları ve bunların güvenlik
+        boyutu.
+      </li>
+      <li><strong>Teknoloji:</strong> denediğim araçlar, kurulumlar ve kısa incelemeler.</li>
+    </ul>
+
+    <h2>Kısaca ben</h2>
+    <ul>
+      <li>📍 [Şehir / ülke]</li>
+      <li>🎓 [Okul / bölüm veya mesleki geçmiş]</li>
+      <li>🛠️ [Sık kullandığın diller ve araçlar, örn. Python, TypeScript, Linux, Docker]</li>
+      <li>🔐 [İlgilendiğin güvenlik alanları, örn. web güvenliği, ağ güvenliği]</li>
+      <li>🎯 [Şu an üzerinde çalıştığın veya öğrendiğin şey]</li>
+    </ul>
+
+    <h2>Bu blog nasıl çalışıyor?</h2>
+    <p>
+      Site <a href="https://astro.build" rel="noopener">Astro</a> ile üretilen tamamen statik bir
+      sitedir; sunucu veya veritabanı yoktur. Yazılar Markdown dosyalarıdır ve GitHub Actions ile
+      GitHub Pages'e otomatik olarak yayınlanır. Takip için
+      <a href={withBase('/rss.xml')}>RSS beslemesine</a> abone olabilirsin.
+    </p>
+
+    <h2>İletişim</h2>
+    <p>
+      Bana <a href={SOCIAL.github} rel="me noopener">GitHub</a> üzerinden ulaşabilirsin.
+      [İsteğe bağlı: e-posta, LinkedIn, Mastodon vb. bağlantılar]
+    </p>
+
+    <blockquote>
+      <p>
+        Buradaki yazılar kişisel görüşlerimdir. Güvenlik içerikleri yalnızca eğitim amaçlıdır;
+        izin almadığın sistemlerde deneme yapma.
+      </p>
+    </blockquote>
+  </article>
+</BaseLayout>

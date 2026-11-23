@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts, getTags } from '../../utils/posts';
+import { useTranslations } from '../../i18n/ui';
+import { withBase } from '../../utils/url';
+
+const t = useTranslations();
+const tags = getTags(await getPublishedPosts());
+---
+
+<BaseLayout title={t('tags.title')} description={t('tags.description')}>
+  <header class="page-header">
+    <h1>{t('tags.title')}</h1>
+    <p>{t('tags.description')}</p>
+  </header>
+
+  <div class="measure">
+    {
+      tags.length === 0 ? (
+        <p class="muted">{t('blog.empty')}</p>
+      ) : (
+        <ul class="tag-list">
+          {tags.map((tag) => (
+            <li>
+              <a class="tag" href={withBase(`/tags/${tag.slug}/`)}>
+                {tag.name}
+                <span class="count">({tag.count} {t('tags.count')})</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>

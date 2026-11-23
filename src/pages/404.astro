@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations } from '../i18n/ui';
+import { withBase } from '../utils/url';
+
+const t = useTranslations();
+---
+
+<BaseLayout title={t('404.title')} noindex>
+  <section class="not-found measure" aria-labelledby="nf-title">
+    <p class="code mono" aria-hidden="true">404</p>
+    <h1 id="nf-title">{t('404.title')}</h1>
+    <pre class="term" aria-hidden="true"><code>$ cat ./aradigin-sayfa
+cat: ./aradigin-sayfa: No such file or directory</code></pre>
+    <p class="muted">{t('404.text')}</p>
+    <p><a class="mono" href={withBase('/')}>← {t('404.home')}</a></p>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-top: 2rem;
+  }
+  .code {
+    font-size: clamp(3.5rem, 12vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--accent);
+    margin: 0 0 1rem;
+  }
+  .term {
+    background: var(--bg-code);
+    color: var(--muted);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+</style>

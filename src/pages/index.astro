@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { SITE } from '../consts';
+import { getPublishedPosts, getTags } from '../utils/posts';
+import { useTranslations } from '../i18n/ui';
+import { withBase } from '../utils/url';
+
+const t = useTranslations();
+const posts = await getPublishedPosts();
+const latest = posts.slice(0, SITE.postsOnHome);
+const topTags = getTags(posts).slice(0, 8);
+---
+
+<BaseLayout>
+  <section class="hero measure" aria-labelledby="hero-title">
+    <p class="mono muted prompt">whoami</p>
+    <h1 id="hero-title">{SITE.author}</h1>
+    <p class="lead">{t('home.intro')}</p>
+    {
+      topTags.length > 0 && (
+        <ul class="tag-list" aria-label={t('nav.tags')}>
+          {topTags.map((tag) => (
+            <li>
+              <a class="tag" href={withBase(`/tags/${tag.slug}/`)}>
+                {tag.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+
+  <section class="measure" aria-labelledby="latest-title">
+    <h2 id="latest-title" class="section-title">{t('home.latest')}</h2>
+    {
+      latest.length === 0 ? (
+        <p class="muted">{t('blog.empty')}</p>
+      ) : (
+        <div class="posts">
+          {latest.map((post) => (
+            <PostCard post={post} headingLevel="h3" />
+          ))}
+        </div>
+      )
+    }
+    {posts.length > latest.length && (
+      <p class="more mono">
+        <a href={withBase('/blog/')}>{t('home.all')}</a>
+      </p>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    margin-bottom: 3.5rem;
+  }
+  .hero h1 {
+    margin-bottom: 0.5rem;
+  }
+  .lead {
+    font-size: 1.125rem;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+  }
+  .section-title {
+    margin-top: 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+  .more {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+  }
+</style>
