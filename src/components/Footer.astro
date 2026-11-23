@@ -1,0 +1,57 @@
+---
+import { SITE, SOCIAL } from '../consts';
+import { useTranslations, type Lang } from '../i18n/ui';
+import { withBase } from '../utils/url';
+
+interface Props {
+  lang?: Lang;
+}
+const t = useTranslations(Astro.props.lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>© {year} {SITE.author}. {t('footer.rights')}</p>
+    <ul>
+      <li><a href={SOCIAL.github} rel="me noopener" target="_blank">GitHub</a></li>
+      <li><a href={withBase('/rss.xml')}>RSS</a></li>
+      <li><a href={withBase('/sitemap-index.xml')}>Sitemap</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .inner {
+    max-width: var(--wide);
+    margin: 0 auto;
+    padding: 1.5rem var(--space);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+  }
+  p {
+    margin: 0;
+  }
+  ul {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    color: var(--muted);
+  }
+  a:hover {
+    color: var(--accent);
+  }
+</style>
