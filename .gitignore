@@ -1,0 +1,25 @@
+# Bağımlılıklar
+node_modules/
+
+# Derleme çıktıları
+dist/
+.astro/
+
+# Ortam değişkenleri / sırlar
+.env
+.env.*
+!.env.example
+
+# Loglar
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# İşletim sistemi / editör
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
